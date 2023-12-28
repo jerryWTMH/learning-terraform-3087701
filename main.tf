@@ -95,7 +95,7 @@ module "blog_alb" {
 
   target_groups = {
     ex-instance = {
-      name_prefix      = "blog"
+      name_prefix      = "h1"
       protocol         = "HTTP"
       port             = 80
       target_type      = "instance"
@@ -111,7 +111,15 @@ module "blog_alb" {
         protocol    = "HTTPS"
         status_code = "HTTP_301"
       }
-      target_group_index = 0
+    }
+    ex-https = {
+      port            = 443
+      protocol        = "HTTPS"
+      certificate_arn = "arn:aws:iam::123456789012:server-certificate/test_cert-123456789012"
+
+      forward = {
+        target_group_key = "ex-instance"
+      }
     }
   }
 
